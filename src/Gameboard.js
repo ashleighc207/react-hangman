@@ -9,7 +9,8 @@ class Gameboard extends Component {
   static defaultProps = {
     characters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
     mysteryWord: 'New Car',
-    bodyParts: ['head', 'body', 'arm-l', 'arm-r', 'leg-l', 'leg-r']
+    bodyParts: ['head', 'body', 'arm-l', 'arm-r', 'leg-l', 'leg-r'],
+    wordList: ['apple', 'tree house', 'vacation', 'nope rope', 'weather', 'pizza place', 'nice view']
   }
   state = {
     currentWord: this.props.mysteryWord,
@@ -21,10 +22,34 @@ class Gameboard extends Component {
   constructor(props) {
     super(props);
     this.pressKey = this.pressKey.bind(this);
+    this.resetBoard = this.resetBoard.bind(this);
+    this.generateNewWord = this.generateNewWord.bind(this);
+    this.enableButtons = this.enableButtons.bind(this);
   }
 
   resetBoard() {
+    this.generateNewWord()
+    this.enableButtons()
+    this.state.bodyParts.map(part => {
+      document.getElementById(part).style.opacity = 0;
+    })
+  }
 
+  generateNewWord(){
+    let randWord =  this.props.wordList[Math.floor(Math.random()* this.props.wordList.length)];
+    this.setState({
+      currentWord: randWord,
+      splitWord: randWord.toLowerCase().split(''),
+      status: 'in-progress',
+      bodyParts: this.props.bodyParts
+    })
+  }
+
+  enableButtons() {
+    let buttons = document.getElementsByTagName('button');
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].removeAttribute('disabled')
+    }
   }
 
   disableButtons() {
@@ -89,7 +114,7 @@ class Gameboard extends Component {
     return (
       <div>
         <h1 className="Gameboard--title">{this.state.status === 'lost' ? 'Better Luck Next Time!' : this.state.status === 'won' ? 'Congrats, you won!' : 'Lets Play Hangman'}</h1>
-        {this.state.status === 'lost' || this.state.status === 'won' ? <button onClick={this.resetBoard()} className="Gameboard--reset">Play again</button> : null}
+        <button onClick={this.resetBoard} className="Gameboard--reset">Play again</button>
       <div className = "Gameboard">
       <Hangman />
       <div className="Gameboard--text-container">
