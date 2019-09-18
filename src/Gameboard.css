@@ -7,6 +7,7 @@
 .Gameboard--single-tile {
   font-size: 70px;
   margin: 0 10px;
+  width: 70px;
 }
 
 .Gameboard--text-container {

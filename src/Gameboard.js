@@ -33,9 +33,17 @@ class Gameboard extends Component {
     this.state.bodyParts.map(part => {
       document.getElementById(part).style.opacity = 0;
     })
+
   }
 
   generateNewWord(){
+    let tiles = document.getElementsByClassName('Gameboard--single-tile');
+    for(let i = 0; i < tiles.length; i++){
+      tiles[i].removeAttribute('visible')
+      if(tiles[i].getAttribute('value') !== ' '){
+        tiles[i].innerText = '_';
+      }
+    }
     let randWord =  this.props.wordList[Math.floor(Math.random()* this.props.wordList.length)];
     this.setState({
       currentWord: randWord,
@@ -69,11 +77,14 @@ class Gameboard extends Component {
   }
 
   showTile(tilesArr, key){
-    let idx = tilesArr.findIndex(function(t, i){
-      return t.getAttribute('value') === key
+    let idx = tilesArr.filter(function(t, i){
+       return t.getAttribute('value') === key
       })
-      tilesArr[idx].innerText = key;
-      tilesArr[idx].setAttribute('visible', true)
+      idx.forEach(function(item){
+        item.innerText = key;
+        item.setAttribute('visible', true)
+      })
+
       this.hasWon(tilesArr)
   }
 
@@ -119,11 +130,11 @@ class Gameboard extends Component {
       <Hangman />
       <div className="Gameboard--text-container">
           <div className = "Gameboard--blank-tiles" >
-            {this.state.splitWord.map(l => {
+            {this.state.splitWord.map((l, i) => {
               return <span className = "Gameboard--single-tile"
               value = { l }
               key = {
-                'board-' + l
+                'board-' + l + i
               } > {
                 (l !== ' ' ? '_' : ' ')
               } </span>
@@ -131,12 +142,12 @@ class Gameboard extends Component {
           }
         </div>
           <div className = "AlphaButtons">
-            {this.props.characters.map(c => {
+            {this.props.characters.map((c, i) => {
               return <AlphaButtons
               characters = {this.props.characters}
               value = {c}
               id = {c}
-              key = {c}
+              key = {c + i}
               pressKey = {this.pressKey}
               />
             })}
