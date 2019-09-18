@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component
+} from 'react';
 import './Gameboard.css';
 import Hangman from './Hangman.js';
 import AlphaButtons from './AlphaButtons.js';
@@ -7,31 +9,29 @@ class Gameboard extends Component {
   static defaultProps = {
     characters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
     mysteryWord: 'New Car',
-    bodyParts: ['head', 'body', 'arm-r', 'arm-l', 'leg-r', 'leg-l']
+    bodyParts: ['head', 'body', 'arm-l', 'arm-r', 'leg-l', 'leg-r']
   }
   state = {
     currentWord: this.props.mysteryWord,
     splitWord: this.props.mysteryWord.toLowerCase().split(''),
-    bodyParts: this.props.bodyParts
+    bodyParts: this.props.bodyParts,
+    status: 'in-progress'
   }
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.pressKey = this.pressKey.bind(this);
   }
 
-  pressKey(key){
+  pressKey(key) {
+    document.getElementById(key).setAttribute('disabled', true)
     let tiles = document.getElementsByClassName('Gameboard--single-tile');
-    for(let i = 0; i < tiles.length; i++){
-      if(tiles[i].getAttribute('value') === key){
+    for (let i = 0; i < tiles.length; i++) {
+      if (tiles[i].getAttribute('value') === key) {
+        console.log(true)
         tiles[i].innerText = key;
       } else {
-        if(this.state.bodyParts.length <= 0){
-          let buttons = document.getElementsByTagName('button');
-          for(let i = 0; i < buttons.length; i++){
-            buttons[i].setAttribute('disabled', true)
-          }
-        } else {
+        // if (this.state.bodyParts.length > 0) {
           document.getElementById(this.state.bodyParts[0]).style.opacity = 1;
           let newBody = this.state.bodyParts.filter((n, i) => {
             return (i != 0) ? n : null;
@@ -39,32 +39,54 @@ class Gameboard extends Component {
           this.setState({
             bodyParts: newBody
           })
+          if (this.state.bodyParts.length == 1) {
+            let buttons = document.getElementsByTagName('button');
+            for (let i = 0; i < buttons.length; i++) {
+              buttons[i].setAttribute('disabled', true)
+            }
+            this.setState({
+              status: 'lost'
+            })
+          }
         }
       }
-      }
+    }
   }
 
 
-  render(){
-    return(
-      <div className="Gameboard">
-        <Hangman />
-        <div className="Gameboard--blank-tiles">
-          {this.state.splitWord.map(l => {
-            return <span className="Gameboard--single-tile" value={l} key={'board-' + l}>{(l != ' ' ? '_' : ' ')}</span>
-          })}
+  render() {
+    return (
+      <div>
+        <h1>{this.state.status === 'lost' ? 'Better Luck Next Time!' : this.state.status === 'won' ? 'Congrats, you won!' : 'Lets Play Hangman!'}</h1>
+      <div className = "Gameboard">
+      <Hangman />
+      <div className="Gameboard--text-container">
+          <div className = "Gameboard--blank-tiles" >
+            {this.state.splitWord.map(l => {
+              return <span className = "Gameboard--single-tile"
+              value = { l }
+              key = {
+                'board-' + l
+              } > {
+                (l != ' ' ? '_' : ' ')
+              } </span>
+            })
+          }
         </div>
-        <div className="AlphaButtons">
-          {this.props.characters.map(c => {
-            return <AlphaButtons
-              characters={this.props.characters}
-              value={c}
-              key={c}
-              pressKey={this.pressKey}
-            />
-          })}
+          <div className = "AlphaButtons">
+            {this.props.characters.map(c => {
+              return <AlphaButtons
+              characters = {this.props.characters}
+              value = {c}
+              id = {c}
+              key = {c}
+              pressKey = {this.pressKey}
+              />
+            })}
+          </div>
         </div>
       </div>
+    </div>
     )
   }
 }

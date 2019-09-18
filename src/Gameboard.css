@@ -8,3 +8,10 @@
   font-size: 70px;
   margin: 0 10px;
 }
+
+.Gameboard--text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}

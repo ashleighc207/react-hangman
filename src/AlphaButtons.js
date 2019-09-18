@@ -11,7 +11,9 @@ class AlphaButtons extends Component {
   }
   render(){
     return(
-        <button onClick={this.handleClick}>{this.props.value}</button>
+        <button
+        id={this.props.id}
+        value={this.props.value} onClick={this.handleClick}>{this.props.value}</button>
     )
   }
 }
