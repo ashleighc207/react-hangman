@@ -23,6 +23,53 @@ class Gameboard extends Component {
     this.pressKey = this.pressKey.bind(this);
   }
 
+  resetBoard() {
+
+  }
+
+  disableButtons() {
+      let buttons = document.getElementsByTagName('button');
+      for (let i = 0; i < buttons.length; i++) {
+        buttons[i].setAttribute('disabled', true)
+      }
+  }
+
+  hasWon(tilesArr){
+    let wonTiles = tilesArr.filter(tile => tile.getAttribute('visible') === 'true')
+    let existingTiles = tilesArr.filter(tile => tile.getAttribute('value') !== ' ');
+    if(wonTiles.length === existingTiles.length){
+      this.setState({status: 'won'})
+      this.disableButtons()
+    }
+  }
+
+  showTile(tilesArr, key){
+    let idx = tilesArr.findIndex(function(t, i){
+      return t.getAttribute('value') === key
+      })
+      tilesArr[idx].innerText = key;
+      tilesArr[idx].setAttribute('visible', true)
+      this.hasWon(tilesArr)
+  }
+
+  loseTurn(tilesArr, key){
+    if (this.state.bodyParts.length > 0) {
+      document.getElementById(this.state.bodyParts[0]).style.opacity = 1;
+      let newBody = this.state.bodyParts.filter((n, i) => {
+        return (i !== 0) ? n : null;
+      })
+      this.setState({
+        bodyParts: newBody
+      })
+      if (this.state.bodyParts.length <= 1) {
+        this.disableButtons();
+        this.setState({
+          status: 'lost'
+        })
+      }
+    }
+  }
+
   pressKey(key) {
     document.getElementById(key).setAttribute('disabled', true)
     let tiles = document.getElementsByClassName('Gameboard--single-tile');
@@ -31,29 +78,9 @@ class Gameboard extends Component {
       tilesArr.push(tiles[i]);
     }
     if (tilesArr.some(t => { return t.getAttribute('value') === key})) {
-    let idx = tilesArr.findIndex(function(t, i){
-      return t.getAttribute('value') === key
-      })
-      tilesArr[idx].innerText = key;
+      this.showTile(tilesArr, key);
     } else {
-      if (this.state.bodyParts.length > 0) {
-        document.getElementById(this.state.bodyParts[0]).style.opacity = 1;
-        let newBody = this.state.bodyParts.filter((n, i) => {
-          return (i !== 0) ? n : null;
-        })
-        this.setState({
-          bodyParts: newBody
-        })
-        if (this.state.bodyParts.length === 1) {
-          let buttons = document.getElementsByTagName('button');
-          for (let i = 0; i < buttons.length; i++) {
-            buttons[i].setAttribute('disabled', true)
-          }
-          this.setState({
-            status: 'lost'
-          })
-        }
-      }
+      this.loseTurn(tilesArr, key)
     }
   }
 
@@ -62,6 +89,7 @@ class Gameboard extends Component {
     return (
       <div>
         <h1 className="Gameboard--title">{this.state.status === 'lost' ? 'Better Luck Next Time!' : this.state.status === 'won' ? 'Congrats, you won!' : 'Lets Play Hangman'}</h1>
+        {this.state.status === 'lost' || this.state.status === 'won' ? <button onClick={this.resetBoard()} className="Gameboard--reset">Play again</button> : null}
       <div className = "Gameboard">
       <Hangman />
       <div className="Gameboard--text-container">
