@@ -46,14 +46,14 @@ class Gameboard extends Component {
   }
 
   enableButtons() {
-    let buttons = document.getElementsByTagName('button');
+    let buttons = document.getElementsByClassName('AlphaButtons--button');
     for (let i = 0; i < buttons.length; i++) {
       buttons[i].removeAttribute('disabled')
     }
   }
 
   disableButtons() {
-      let buttons = document.getElementsByTagName('button');
+      let buttons = document.getElementsByClassName('AlphaButtons--button');
       for (let i = 0; i < buttons.length; i++) {
         buttons[i].setAttribute('disabled', true)
       }
