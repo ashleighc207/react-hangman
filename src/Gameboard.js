@@ -27,7 +27,6 @@ class Gameboard extends Component {
     document.getElementById(key).setAttribute('disabled', true)
     let tiles = document.getElementsByClassName('Gameboard--single-tile');
     let tilesArr = [];
-    console.log(tiles)
     for (let i = 0; i < tiles.length; i++) {
       tilesArr.push(tiles[i]);
     }
@@ -40,12 +39,12 @@ class Gameboard extends Component {
       if (this.state.bodyParts.length > 0) {
         document.getElementById(this.state.bodyParts[0]).style.opacity = 1;
         let newBody = this.state.bodyParts.filter((n, i) => {
-          return (i != 0) ? n : null;
+          return (i !== 0) ? n : null;
         })
         this.setState({
           bodyParts: newBody
         })
-        if (this.state.bodyParts.length == 1) {
+        if (this.state.bodyParts.length === 1) {
           let buttons = document.getElementsByTagName('button');
           for (let i = 0; i < buttons.length; i++) {
             buttons[i].setAttribute('disabled', true)
@@ -73,7 +72,7 @@ class Gameboard extends Component {
               key = {
                 'board-' + l
               } > {
-                (l != ' ' ? '_' : ' ')
+                (l !== ' ' ? '_' : ' ')
               } </span>
             })
           }

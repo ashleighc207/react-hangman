@@ -5,7 +5,7 @@
 ## Description
 This is a simple hangman game using stateful components.
 
-<!-- <img src="example.png" alt="Example image" width="350" align="center"/> -->
+<img src="example.png" alt="Example image" width="350" align="center"/>
 
 ## How to Launch the App
 Download or clone this repo to your machine
@@ -14,7 +14,7 @@ Download or clone this repo to your machine
 
 ## Dependencies
 - create-react-app
-- Google Fonts - Roboto (400, 500)
+- Google Fonts - Quicksand (400, 500)
 
 ## How to Use
 Fork this respository, then clone it to your local machine. Run `npm start` in the root directory to start the server and launch the app
