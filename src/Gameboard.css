@@ -1,0 +1,10 @@
+.Gameboard {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.Gameboard--single-tile {
+  font-size: 70px;
+  margin: 0 10px;
+}

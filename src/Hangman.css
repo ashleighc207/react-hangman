@@ -2,3 +2,16 @@
   height: 700px;
   width: 500px;
 }
+
+.Hangman--man-container {
+  border: 1px solid #424242;
+  border-radius: 10px;
+  margin-top: 50px;
+  padding: 40px;
+  padding-bottom: 80px;
+}
+
+#head, #body, #arm-r, #arm-l, #leg-r, #leg-l {
+  opacity: 0;
+  transition: all .5s ease-in;
+}
