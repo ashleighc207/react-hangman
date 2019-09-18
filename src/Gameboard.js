@@ -26,28 +26,33 @@ class Gameboard extends Component {
   pressKey(key) {
     document.getElementById(key).setAttribute('disabled', true)
     let tiles = document.getElementsByClassName('Gameboard--single-tile');
+    let tilesArr = [];
+    console.log(tiles)
     for (let i = 0; i < tiles.length; i++) {
-      if (tiles[i].getAttribute('value') === key) {
-        console.log(true)
-        tiles[i].innerText = key;
-      } else {
-        // if (this.state.bodyParts.length > 0) {
-          document.getElementById(this.state.bodyParts[0]).style.opacity = 1;
-          let newBody = this.state.bodyParts.filter((n, i) => {
-            return (i != 0) ? n : null;
-          })
-          this.setState({
-            bodyParts: newBody
-          })
-          if (this.state.bodyParts.length == 1) {
-            let buttons = document.getElementsByTagName('button');
-            for (let i = 0; i < buttons.length; i++) {
-              buttons[i].setAttribute('disabled', true)
-            }
-            this.setState({
-              status: 'lost'
-            })
+      tilesArr.push(tiles[i]);
+    }
+    if (tilesArr.some(t => { return t.getAttribute('value') === key})) {
+    let idx = tilesArr.findIndex(function(t, i){
+      return t.getAttribute('value') === key
+      })
+      tilesArr[idx].innerText = key;
+    } else {
+      if (this.state.bodyParts.length > 0) {
+        document.getElementById(this.state.bodyParts[0]).style.opacity = 1;
+        let newBody = this.state.bodyParts.filter((n, i) => {
+          return (i != 0) ? n : null;
+        })
+        this.setState({
+          bodyParts: newBody
+        })
+        if (this.state.bodyParts.length == 1) {
+          let buttons = document.getElementsByTagName('button');
+          for (let i = 0; i < buttons.length; i++) {
+            buttons[i].setAttribute('disabled', true)
           }
+          this.setState({
+            status: 'lost'
+          })
         }
       }
     }
@@ -57,7 +62,7 @@ class Gameboard extends Component {
   render() {
     return (
       <div>
-        <h1>{this.state.status === 'lost' ? 'Better Luck Next Time!' : this.state.status === 'won' ? 'Congrats, you won!' : 'Lets Play Hangman!'}</h1>
+        <h1>{this.state.status === 'lost' ? 'Better Luck Next Time!' : this.state.status === 'won' ? 'Congrats, you won!' : 'Lets Play Hangman'}</h1>
       <div className = "Gameboard">
       <Hangman />
       <div className="Gameboard--text-container">
