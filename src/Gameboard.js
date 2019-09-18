@@ -62,7 +62,7 @@ class Gameboard extends Component {
   render() {
     return (
       <div>
-        <h1>{this.state.status === 'lost' ? 'Better Luck Next Time!' : this.state.status === 'won' ? 'Congrats, you won!' : 'Lets Play Hangman'}</h1>
+        <h1 className="Gameboard--title">{this.state.status === 'lost' ? 'Better Luck Next Time!' : this.state.status === 'won' ? 'Congrats, you won!' : 'Lets Play Hangman'}</h1>
       <div className = "Gameboard">
       <Hangman />
       <div className="Gameboard--text-container">

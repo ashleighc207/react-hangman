@@ -11,7 +11,7 @@ class AlphaButtons extends Component {
   }
   render(){
     return(
-        <button
+        <button className="AlphaButtons--button"
         id={this.props.id}
         value={this.props.value} onClick={this.handleClick}>{this.props.value}</button>
     )
