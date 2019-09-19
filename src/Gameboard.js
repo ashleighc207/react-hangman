@@ -31,7 +31,6 @@ class Gameboard extends Component {
     this.generateNewWord()
     this.enableButtons()
     this.state.bodyParts.map(part => {
-      console.log(part)
       document.getElementById(part).style.opacity = 0;
     })
 
