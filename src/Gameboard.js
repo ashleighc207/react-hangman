@@ -31,6 +31,7 @@ class Gameboard extends Component {
     this.generateNewWord()
     this.enableButtons()
     this.state.bodyParts.map(part => {
+      console.log(part)
       document.getElementById(part).style.opacity = 0;
     })
 
@@ -88,6 +89,16 @@ class Gameboard extends Component {
       this.hasWon(tilesArr)
   }
 
+  revealWord() {
+    let tiles = document.getElementsByClassName('Gameboard--single-tile');
+    for(let i = 0; i < tiles.length; i++){
+      tiles[i].setAttribute('visible', true)
+      if(tiles[i].getAttribute('value') !== ' '){
+        tiles[i].innerText = tiles[i].getAttribute('value');
+      }
+    }
+  }
+
   loseTurn(tilesArr, key){
     if (this.state.bodyParts.length > 0) {
       document.getElementById(this.state.bodyParts[0]).style.opacity = 1;
@@ -98,9 +109,11 @@ class Gameboard extends Component {
         bodyParts: newBody
       })
       if (this.state.bodyParts.length <= 1) {
-        this.disableButtons();
+        this.revealWord()
+        this.disableButtons()
         this.setState({
-          status: 'lost'
+          status: 'lost',
+          bodyParts: this.props.bodyParts
         })
       }
     }
