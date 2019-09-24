@@ -6,7 +6,7 @@
 
 This is a simple hangman game using stateful components.
 
-- You can see the live site here:
+- You can see the live site here: https://ashleighc207.github.io/react-hangman/
 
 <img src="example.png" alt="Example image" width="350" align="center"/>
 
